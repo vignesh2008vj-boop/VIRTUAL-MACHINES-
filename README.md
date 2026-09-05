@@ -1,62 +1,111 @@
-# VIRTUAL-MACHINES-
-EX 6: MOVING FILES BETWEEN VIRTUAL MACHINES
+# Lab 6 – Scale and Load Balance Your Architecture
 
-Aim:
-To move the files between virtual machine.
- You can move files between virtual machines in several ways:
-•	You can copy files using network utilities as you would between physical computers on your network. To do this between two virtual machine:
-•	Both virtual machines must be configured to allow access to your network.
-•	Any of the networking methods (host-only, bridged and NAT) are appropriate. 
-•	With host-only networking, you copy files from the virtual machines to the host and vice-versa, since host-only networking only allows the virtual machines see your host computer.
-•	With bridged networking or NAT enabled, you can copy files across your network between the virtual machines.
-•	You can create a shared drive, either a virtual disk or a raw partition, and mount the drive in each of the virtual machines.
-Procedure:
-		How to Enable File sharing in VirtualBox. 
-Step 1. Install Guest Additions on the Guest machine. 
-Step 2. Configure File Sharing on VirtualBox. 
- 
-Step 1. Install Guest Additions on the Guest machine. 
-1. Start the Virtuabox Guest Machine (OS). 
-2. From Oracle's VM VirtualBox main menu, select Devices > Install Guest Additions *
+## Author
 
-a. Open Windows Explorer
-b. Double click at the "CD Drive (X:) VirtualBox Guest additions" to explore its contents.
-		  
-![image](https://github.com/user-attachments/assets/d3dbb341-38c1-4f3e-92f7-0cfe1084e679)
 
-C.Right click at "VBoxWindowsAdditions" application and from the pop-up menu, choose "Run as administrator".
- 
-![image](https://github.com/user-attachments/assets/35be1b73-df5c-445e-bb24-94d71f7898e4)
+* **Name**: vignesh vj
+* **Register Number**: 212225230299
 
-3.Press Next and then follow the on screen instructions to complete the Guest Additions installation.
-	 
-![image](https://github.com/user-attachments/assets/066c93ef-f2fa-40e8-a8f2-041ca2758db1)
+---
 
-4. When the setup is completed, choose Finish and restart the Virtuabox guest machine.
-Step 2. Setup File Sharing on VirtualBox Guest Machine.
-1. From VirtualBox menu click Devices and choose Shared Folders -> Shared Folder Settings.
+## Title
 
-![image](https://github.com/user-attachments/assets/c58d8e37-8a75-47ad-bdc8-800ff55b2ccf)
+Scale and Load Balance Your Architecture
 
-2. Click the Add new shared folder icon.
- 
-![image](https://github.com/user-attachments/assets/b7cb3277-4fce-4267-8916-04f94a41a2f8)
+---
 
-3. Click the drop-down arrow and select Other.
- 
-![image](https://github.com/user-attachments/assets/50268dcf-8b14-4592-9a69-439b0639db43)
+## Objective
 
-3. Locate and highlight (from the Host OS) the folder that you want to share between the VirtualBox Guest machine and the Host and click Select Folder. *
-* Note: To make your life easier, create a new folder for the file sharing, on the Host OS and give it with a recognizable name. (e.g. "Public")
- 
-![image](https://github.com/user-attachments/assets/076d8f8f-93cc-478e-902b-8d3d0b1474e6)
+The objective of this lab is to understand how to design a scalable and highly available architecture on AWS using Auto Scaling and Elastic Load Balancing. This experiment focuses on distributing incoming traffic across multiple EC2 instances, automatically scaling resources based on demand, and validating fault tolerance.
 
-4. Now, in the 'Add Share' options, type a name (if you want) at the 'Folder Name box, click the Auto Mount and the Make Permanent checkboxes and click OK twice to close the Shared Folder Settings.
- 
-![image](https://github.com/user-attachments/assets/3f2c7dc1-5781-43e3-8e36-4e0706d603e0)
+---
 
-5. You 're done! To access the shared folder from the Guest OS, open Windows Explorer and under the 'Network locations' you should see a new network drive that corresponds to the shared folder on the Host OS.
+## Prerequisites
 
-Result:
+* Basic knowledge of Amazon EC2 and VPC
+* Completion of previous labs (IAM, EC2, EBS, Database Server)
+* AWS Academy Lab access
+* Stable internet connection
 
-Thus the virtual machine files are moved to another VM
+---
+
+## Tools Used
+
+* AWS Management Console
+* Amazon EC2
+* Elastic Load Balancer (ELB / ALB)
+* Auto Scaling Groups (ASG)
+* Amazon CloudWatch
+
+---
+
+## Tasks Performed
+
+### Task 1: Review Existing Architecture
+
+Students review the existing EC2-based application architecture created in previous experiments.
+
+### Task 2: Create a Launch Template
+
+Students create a launch template that defines the EC2 instance configuration including AMI, instance type, security group, and user data.
+
+### Task 3: Create an Auto Scaling Group
+
+Students create an Auto Scaling Group using the launch template and configure minimum, maximum, and desired instance capacity.
+
+### Task 4: Configure an Application Load Balancer
+
+Students create an Application Load Balancer and configure target groups for routing traffic to EC2 instances.
+
+### Task 5: Register Auto Scaling Group with Load Balancer
+
+Students attach the Auto Scaling Group to the target group of the load balancer.
+
+### Task 6: Configure Scaling Policies
+
+Students configure scaling policies based on CPU utilization using Amazon CloudWatch alarms.
+
+### Task 7: Test Load Balancing and Scaling
+
+Students test the setup by generating traffic and observing automatic scaling and load distribution.
+
+---
+
+## Workflow (Student Explanation)
+
+1. I reviewed the existing EC2-based application architecture that I had created in previous experiments to understand how the instances were configured and how the application was being accessed.
+
+2. I created a Launch Template by defining the EC2 configuration, including the Amazon Machine Image (AMI), instance type, key pair, security group, and user data script for automatic application setup during instance launch.
+
+3. Using the launch template, I created an Auto Scaling Group. I configured the minimum, maximum, and desired capacity values to control how many EC2 instances should run based on demand. I also selected the appropriate VPC and subnets.
+
+4. Next, I created an Application Load Balancer and configured a target group. I set the protocol and port (HTTP/HTTPS) and defined health check settings to monitor the EC2 instances.
+
+5. I attached the Auto Scaling Group to the target group so that any instances launched by the Auto Scaling Group would automatically register with the Load Balancer.
+
+6. I configured scaling policies based on CPU utilization. I created Amazon CloudWatch alarms to automatically increase the number of instances when CPU usage was high and decrease them when CPU usage was low.
+
+7. Finally, I tested the setup by generating traffic to the Load Balancer DNS name. I observed that the traffic was distributed evenly across instances and that additional instances were launched automatically when the CPU utilization threshold was exceeded.
+
+---
+
+## Output 
+
+## Created LoadBalancer
+
+<img width="1920" height="967" alt="image" src="https://github.com/user-attachments/assets/30bcd1d3-d987-4d74-8107-4e3a64acadc3" />
+
+## Created LabConfig
+
+<img width="1920" height="967" alt="image" src="https://github.com/user-attachments/assets/6da7573d-c81b-4621-91aa-e419be44821b" />
+
+## Dynamic Scaling Policy created
+
+<img width="1920" height="967" alt="image" src="https://github.com/user-attachments/assets/d09eafcc-42ca-43e2-8b6d-de4b226b63f7" />
+
+---
+
+
+## Result
+
+This experiment demonstrated how to build a scalable and fault-tolerant cloud architecture using Auto Scaling Groups and Elastic Load Balancing. The system automatically adjusted resources based on workload and ensured continuous service availability by distributing traffic across multiple instances.
